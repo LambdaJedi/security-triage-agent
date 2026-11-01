@@ -1,0 +1,93 @@
+
+[
+  {
+    "id": "EVAL-001",
+    "category": "sql_injection",
+    "finding": "The login endpoint accepts user input and directly inserts it into SQL queries without parameterized statements. No successful exploitation has been demonstrated.",
+    "expected_cwe": "CWE-89",
+    "expected_evidence_terms": ["login endpoint", "user input", "SQL"],
+    "forbidden_evidence_terms": ["bypass authentication", "access database records"],
+    "expected_verified_impact": false
+  },
+  {
+    "id": "EVAL-002",
+    "category": "cross_site_scripting",
+    "finding": "The application stores user-provided profile descriptions and displays them to other users without HTML escaping. A script element entered into the description is rendered by the browser.",
+    "expected_cwe": "CWE-79",
+    "expected_evidence_terms": ["profile", "HTML", "script"],
+    "forbidden_evidence_terms": ["session cookie stolen", "account takeover"],
+    "expected_verified_impact": false
+  },
+  {
+    "id": "EVAL-003",
+    "category": "path_traversal",
+    "finding": "The file download endpoint accepts a filename parameter and concatenates it directly into the server upload directory path. The application does not appear to normalise or validate the resulting path.",
+    "expected_cwe": "CWE-22",
+    "expected_evidence_terms": ["filename", "file", "path"],
+    "forbidden_evidence_terms": ["sensitive files extracted", "system files accessed"],
+    "expected_verified_impact": false
+  },
+  {
+    "id": "EVAL-004",
+    "category": "csrf",
+    "finding": "The account settings endpoint accepts POST requests that change the user's email address. The request does not include an anti-CSRF token, and the application uses browser session cookies for authentication.",
+    "expected_cwe": "CWE-352",
+    "expected_evidence_terms": ["POST", "email", "CSRF"],
+    "forbidden_evidence_terms": ["email successfully changed by attacker", "account takeover"],
+    "expected_verified_impact": false
+  },
+  {
+    "id": "EVAL-005",
+    "category": "authentication",
+    "finding": "The API endpoint returns protected account information when a request is sent without valid authentication credentials. The response contains the account owner's email address and account details.",
+    "expected_cwe": "CWE-287",
+    "expected_evidence_terms": ["API", "authentication", "account information"],
+    "forbidden_evidence_terms": ["administrator privileges", "database modified"],
+    "expected_verified_impact": true
+  },
+  {
+    "id": "EVAL-006",
+    "category": "incomplete_finding",
+    "finding": "Something seems wrong with the account page. I think there might be a security issue, but I have not tested it. I do not have a reproduction case, request, response, or other technical evidence.",
+    "expected_cwe": null,
+    "expected_evidence_terms": [],
+    "forbidden_evidence_terms": ["authentication bypass confirmed", "data extracted"],
+    "expected_verified_impact": false
+  },
+  {
+    "id": "EVAL-007",
+    "category": "hypothetical_impact",
+    "finding": "A tester suspects that the login endpoint may contain SQL injection. They believe an attacker could potentially bypass authentication, but no payload, request, response, or successful test result has been provided.",
+    "expected_cwe": "CWE-89",
+    "expected_evidence_terms": ["login endpoint"],
+    "forbidden_evidence_terms": ["bypass authentication", "successful exploitation"],
+    "expected_verified_impact": false
+  },
+  {
+    "id": "EVAL-008",
+    "category": "false_positive",
+    "finding": "The login endpoint uses parameterized SQL queries. User input is passed separately from the SQL statement, and the application does not concatenate user-controlled input into SQL commands. No SQL injection was reproduced during testing.",
+    "expected_cwe": null,
+    "expected_evidence_terms": ["parameterized SQL"],
+    "forbidden_evidence_terms": ["SQL injection confirmed", "authentication bypass confirmed"],
+    "expected_verified_impact": false
+  },
+  {
+    "id": "EVAL-009",
+    "category": "ambiguous_finding",
+    "finding": "The server returned an unexpected response when I clicked the submit button. I do not know what caused the response and have not identified any security impact.",
+    "expected_cwe": null,
+    "expected_evidence_terms": ["unexpected response"],
+    "forbidden_evidence_terms": ["remote code execution", "unauthorized access confirmed"],
+    "expected_verified_impact": false
+  },
+  {
+    "id": "EVAL-010",
+    "category": "demonstrated_exploitation",
+    "finding": "During testing, I submitted the SQL payload ' OR '1'='1' -- to the login endpoint. The application returned an authenticated administrator session without valid credentials. I reproduced the authentication bypass successfully three times.",
+    "expected_cwe": "CWE-89",
+    "expected_evidence_terms": ["SQL payload", "login endpoint", "administrator session"],
+    "forbidden_evidence_terms": [],
+    "expected_verified_impact": true
+  }
+]

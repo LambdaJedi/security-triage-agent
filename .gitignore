@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Environment variables
+.env
+
+# Local databases and model data
+chroma_db/
+*.sqlite3
+
+# Private security data
+data/reports/*
+!data/reports/.gitkeep
+
+# Generated outputs
+sample_outputs/*
+!sample_outputs/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# Test and build artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+*.log
+
+# Evaluation outputs
+evaluation/results.json
+
+# Python tooling
+.mypy_cache/
+.ruff_cache/
+
+# Local development experiments
+dev_tests/

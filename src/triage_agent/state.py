@@ -29,3 +29,7 @@ class TriageState(TypedDict):
 
     # Mock disclosure report generated after approval
     mock_disclosure: Optional[str]
+
+    # Database row ids, set when persistence is enabled
+    finding_id: Optional[int]
+    assessment_id: Optional[int]

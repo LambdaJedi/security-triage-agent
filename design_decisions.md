@@ -57,3 +57,26 @@
 **Reasoning:** A security triage agent needs to be evaluated on more than whether it produces valid text. Classification, evidence quality, and impact assessment must also be examined.
 
 **Limitation:** A small synthetic dataset cannot establish real-world detection performance.
+
+## 9. SQLite for Persistence
+
+**Decision:** Store workflow checkpoints and triage records in a local SQLite database, using the standard library `sqlite3` module and `langgraph-checkpoint-sqlite`.
+
+**Reasoning:** The approval step can wait for a human indefinitely, so the paused workflow must survive a restart. SQLite needs no server, keeps all data on the local machine (consistent with decision 1), and supports foreign keys, constraints, and indexes.
+
+**Trade-off:** SQLite is single-writer and suited to one user. A shared deployment would need PostgreSQL or similar.
+
+## 10. Redact Before Storing
+
+**Decision:** Redact credentials and personal data from text before it reaches the relational tables, and keep only a SHA-256 fingerprint for duplicate detection.
+
+**Reasoning:** Security findings often quote tokens, passwords, and internal addresses. Data that is never stored cannot leak from the database.
+
+**Limitation:** Redaction is pattern-based and can miss unusual formats. LangGraph checkpoints still contain the original state until the thread is deleted.
+
+## 11. Append-Only Audit Log
+
+**Decision:** Record each lifecycle event in an `audit_log` table and block `UPDATE` with a trigger.
+
+**Reasoning:** A human-approval workflow needs a trustworthy record of who decided what and when. Retention purges are the only path that removes rows, and each purge is itself logged.
+
